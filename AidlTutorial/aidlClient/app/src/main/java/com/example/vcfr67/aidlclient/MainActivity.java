@@ -49,13 +49,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Intent i = new Intent("com.example.vcfr67.aidl.service");
-        bindService(i, conn, BIND_AUTO_CREATE);
+        unbindService(conn);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        unbindService(conn);
+        Intent i = new Intent("com.example.vcfr67.aidl.service");
+        bindService(i, conn, BIND_AUTO_CREATE);
+
     }
 }
