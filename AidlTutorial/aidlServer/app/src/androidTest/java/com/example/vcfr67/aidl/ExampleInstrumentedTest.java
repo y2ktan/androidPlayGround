@@ -38,7 +38,7 @@ public class ExampleInstrumentedTest {
     public void TestInnerClass()
     {
         try {
-            assertEquals(2, MyImplObj.cal(2, 1));
+            assertEquals(3, MyImplObj.cal(2, 1));
         }
         catch (RemoteException ex)
         {
