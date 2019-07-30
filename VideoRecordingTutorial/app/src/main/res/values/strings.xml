@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">VideoRecordingTutorial</string>
+    <string name="video_button">video</string>
+    <string name="camera_button">camera</string>
+    <string name="need_camera_permissions">This app needs the WRITE_EXTERNAL_STORAGE, RECORD_AUDIO         and CAMERA permissions to capture video from the camera.</string>
+</resources>
