@@ -5,10 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.ImageFormat
 import android.graphics.SurfaceTexture
-import android.hardware.camera2.CameraAccessException
-import android.hardware.camera2.CameraCharacteristics
-import android.hardware.camera2.CameraDevice
-import android.hardware.camera2.CameraManager
+import android.hardware.camera2.*
 import android.media.Image
 import android.media.ImageReader
 import android.media.MediaRecorder
@@ -26,11 +23,12 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class CameraHelper(private val context:Context){
+class CameraHelper(private val context:Context, private val startPreview: ()->Unit){
     private var cameraDevice:CameraDevice? = null
     private lateinit var cameraId: String
     private var handleThread: HandlerThread? =null
-    private var handler:Handler?=null
+    var handler:Handler?=null
+        private set
     private var totalRotation: Int = 0
     lateinit var previewSize: Size
         private set
@@ -106,6 +104,8 @@ class CameraHelper(private val context:Context){
     val cameraDeviceStateCallback:CameraDevice.StateCallback = object: CameraDevice.StateCallback(){
         override fun onOpened(camera: CameraDevice?) {
             cameraDevice = camera
+            startPreview()
+
         }
 
         override fun onDisconnected(camera: CameraDevice?) {
@@ -223,5 +223,14 @@ class CameraHelper(private val context:Context){
         } else {
             choices[0]
         }
+    }
+
+    fun createCaptureRequest(templatType:Int = CameraDevice.TEMPLATE_PREVIEW): CaptureRequest.Builder?{
+       return cameraDevice?.createCaptureRequest(templatType)
+    }
+
+    fun createCaptureSession(outputs:List<Surface> ,
+                             callback:CameraCaptureSession.StateCallback , handler:Handler?=null){
+        cameraDevice?.createCaptureSession(outputs, callback, handler)
     }
 }

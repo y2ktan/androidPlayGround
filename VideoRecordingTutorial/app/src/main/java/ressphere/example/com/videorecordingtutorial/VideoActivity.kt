@@ -3,15 +3,19 @@ package ressphere.example.com.videorecordingtutorial
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.SurfaceTexture
+import android.hardware.camera2.CameraAccessException
+import android.hardware.camera2.CameraCaptureSession
+import android.hardware.camera2.CameraDevice
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
+import android.view.Surface
 import android.view.TextureView
 import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_video.*
-
-
+import java.util.*
 
 
 class VideoActivity : AppCompatActivity() {
@@ -44,7 +48,7 @@ class VideoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video)
-        cameraHelper = CameraHelper(applicationContext)
+        cameraHelper = CameraHelper(applicationContext, ::startPreview)
         videoOnlineImageButton.setOnClickListener {
             onCaptureClick(it)
         }
@@ -139,6 +143,40 @@ class VideoActivity : AppCompatActivity() {
         }
     }
 
+    private fun startPreview() {
+        val surfaceTexture = textureView.getSurfaceTexture()
+        surfaceTexture.setDefaultBufferSize(cameraHelper.previewSize.width, cameraHelper.previewSize.height)
+        val previewSurface = Surface(surfaceTexture)
+
+        try {
+            val captureRequestBuilder = cameraHelper.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
+            captureRequestBuilder?.addTarget(previewSurface)
+
+            cameraHelper.createCaptureSession(Arrays.asList(previewSurface, cameraHelper.imageReader.getSurface()),
+                    object : CameraCaptureSession.StateCallback() {
+                        override fun onConfigured(session: CameraCaptureSession) {
+                            Log.d(TAG, "onConfigured: startPreview")
+                            val previewCaptureSession = session
+                            try {
+                                previewCaptureSession.setRepeatingRequest(captureRequestBuilder!!.build(),
+                                        null, cameraHelper.handler)
+                            } catch (e: CameraAccessException) {
+                                e.printStackTrace()
+                            }
+
+                        }
+
+                        override fun onConfigureFailed(session: CameraCaptureSession) {
+                            Log.d(TAG, "onConfigureFailed: startPreview")
+
+                        }
+                    }, null)
+        } catch (e: CameraAccessException) {
+            e.printStackTrace()
+        }
+
+    }
+
 
 
 
@@ -146,6 +184,7 @@ class VideoActivity : AppCompatActivity() {
 
     companion object {
         private const val MEDIA_RECORDER_REQUEST = 0
+        private const val TAG = "VideoActivity"
     }
 
 }
