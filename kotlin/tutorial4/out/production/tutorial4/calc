@@ -1,0 +1,40 @@
+int sum(int a, int b) {return a + b;}
+int sub(int a, int b) {return a - b;}
+
+int calculator(int a, int b, int(*operation)(int, int)) {
+	return operation(a,b);
+}
+
+typedef struct human_type{
+   int a;
+   char b[100];
+   void (*dance)();
+   void (*sing)();
+}Human;
+
+
+void dance() {
+	printf("dancing....");
+}
+
+void sing() {
+	printf("kangkung....");
+}
+
+int main(){
+   int a = 100, b = 200;
+   calculator(100,200, sum);
+   calculator(100,200, sub);
+
+   int a = 10;
+   int* address = &a;
+   int** addressof = &address
+
+   printf("a: %d, %p, %d", a, address, *address);
+   printf("a: %p, %p, %d", addressof, *addressof, **address);
+
+   Human h = {10, "Ali", dance, sing};
+   h.dance();
+   h.sing();
+   printf("\n Values: %d, %s", h.a, h.b);
+}
