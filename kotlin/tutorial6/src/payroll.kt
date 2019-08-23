@@ -230,6 +230,8 @@ operator fun Point.minus(y: Int): Int{
     return this - y
 }
 
+
+
 fun main(args: Array<String>) {
     val somemore = ::doSomething
     println(doSomething(0)())
