@@ -1,5 +1,3 @@
-import sun.security.provider.ConfigFile
-
 //Composition design...strategy design
 interface Superpower{
     fun fly() {println("never fly")}
@@ -52,7 +50,7 @@ class Human {
     }
 }
 
-object SingleHuman{
+object SingletonHuman{
     lateinit var  power: Superpower
     fun fly(){
         power.fly()
@@ -90,7 +88,7 @@ fun main(args: Array<String>){
             super.saveWorld()
         }
     }
-    SingleHuman.power = Spiderman()
-    SingleHuman.fly()
-    SingleHuman.saveWorld()
+    SingletonHuman.power = Spiderman()
+    SingletonHuman.fly()
+    SingletonHuman.saveWorld()
 }

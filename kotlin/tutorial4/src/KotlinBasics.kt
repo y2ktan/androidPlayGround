@@ -57,13 +57,16 @@ fun <T> joinToStringOld(collection: Collection<T>,
                      postfix:String):String{
     val result = StringBuilder(prefix)
 
-    val temp = collection.sortedWith(Comparator<T>{ a, b ->
+    val temp = collection.sortedWith(comparator = Comparator<T>{ a, b ->
         when {
             a.toString() > b.toString() -> 1
             a.toString() < b.toString() -> -1
             else -> 0
         }
     })
+
+    //val temp = collection.sortedBy { it.toString() }
+
     for((index, element) in temp.withIndex()){
         if(index > 0) result.append(seperator)
         result.append(element)
@@ -79,14 +82,14 @@ fun <T> Collection<T>.joinToString(
                         prefix:String="[",
                         postfix:String="]"):String{
     val result = StringBuilder(prefix)
-    this.sortedWith(Comparator<T>{ a, b ->
-        when {
-            a.toString() > b.toString() -> 1
-            a.toString() < b.toString() -> -1
-            else -> 0
-        }
-    })
-    for((index, element) in this.withIndex()){
+//    this.sortedWith(Comparator<T>{ a, b ->
+//        when {
+//            a.toString() > b.toString() -> 1
+//            a.toString() < b.toString() -> -1
+//            else -> 0
+//        }
+//    })
+    for((index, element) in this.sortedBy { it.toString() }.withIndex()){
         if(index > 0) result.append(seperator)
         result.append(element)
     }
@@ -94,6 +97,8 @@ fun <T> Collection<T>.joinToString(
     return result.toString()
 }
 
+//Elvis operator
+fun strLenSafe1(s:String?): Int = s?.length ?: 0
 
 
 fun <T> Collection<T>.join(
