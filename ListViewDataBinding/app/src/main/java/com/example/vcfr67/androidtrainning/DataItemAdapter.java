@@ -51,8 +51,11 @@ public class DataItemAdapter extends BaseAdapter {
             mInflater = (LayoutInflater) parent.getContext()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
-        ListItemBinding binding = DataBindingUtil.inflate(
-                mInflater, R.layout.list_item, parent, false);
+        ListItemBinding binding = DataBindingUtil.getBinding(convertView);
+        if(binding == null) {
+            binding = DataBindingUtil.inflate(
+                    mInflater, R.layout.list_item, parent, false);
+        }
         binding.setInfo(mDataItems.get(position));
 
         return binding.getRoot();
