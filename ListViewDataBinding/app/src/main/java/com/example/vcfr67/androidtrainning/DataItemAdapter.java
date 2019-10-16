@@ -57,7 +57,7 @@ public class DataItemAdapter extends BaseAdapter {
                     mInflater, R.layout.list_item, parent, false);
         }
         binding.setInfo(mDataItems.get(position));
-
+        binding.executePendingBindings();
         return binding.getRoot();
     }
 }
