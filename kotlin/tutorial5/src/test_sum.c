@@ -12,7 +12,7 @@ assert((b<0) && (a < (INT_MIN - b))) //testable
 // Best solution
 // UT - external behaviour
 // Only - my functional behaviour
-typdef struct result_type {
+typedef struct result_type {
    int value;
    int error;
 } RESULT
