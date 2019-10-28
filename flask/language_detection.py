@@ -8,9 +8,10 @@ FILE_DIR = "audio"
 def upload_file():
     if request.method == 'POST':
         f = request.files['file']
+        uploaded_audio = os.path.join(FILE_DIR, secure_filename(f.filename))
         if not os.path.exists(FILE_DIR):
             os.makedirs(FILE_DIR)
-        f.save(os.path.join(FILE_DIR, secure_filename(f.filename)))
+        f.save(uploaded_audio)
         return 'file uploaded successfully'+secure_filename(f.filename)
     return 'Not Authorized'
 
