@@ -5,7 +5,7 @@ import wave
 
 def concat_audio(origin, concat_output, dup_count=1):
     destination = open(concat_output, 'wb')
-    for count in dup_count:
+    for count in range(dup_count):
         shutil.copyfileobj(open(origin, 'rb'), destination)
     destination.close()
 
