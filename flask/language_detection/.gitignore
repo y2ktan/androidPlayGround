@@ -1,0 +1,11 @@
+# output
+build
+
+# charts
+*.png
+
+# Compiled python modules.
+*.pyc
+
+# Sublime workspace files
+*.sublime-workspace
