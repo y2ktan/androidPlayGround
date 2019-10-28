@@ -46,3 +46,7 @@ def resample_audio(fname, output, target_sample_rate=22050):
 
 def convert_to_mp3(fname, output):
    subprocess.call(["ffmpeg","-y", "-i",fname, "-codec:a", "libmp3lame","-qscale:a","2", output])
+
+def get_mpeg_audio_length(fname):
+   audio = MP3(fname)
+   return audio.info.length
