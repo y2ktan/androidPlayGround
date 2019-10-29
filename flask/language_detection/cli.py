@@ -12,19 +12,19 @@ from audio_toolbox import ffmpeg, sox
 from constants import *
 
 
-def normalize(input_file):
+def normalize(input_file, silence_min_duration_sec, silence_threshold, keep_silence=True):
     temp_dir = tempfile.mkdtemp()
 
     transcoded_file = os.path.join(temp_dir, 'transcoded.flac')
     ffmpeg.transcode(input_file, transcoded_file)
 
-    if not args.keep_silence:
+    if not keep_silence:
         trimmed_file = os.path.join(temp_dir, 'trimmed.flac')
         sox.remove_silence(
             transcoded_file,
             trimmed_file,
-            min_duration_sec=args.silence_min_duration_sec,
-            threshold=args.silence_threshold)
+            min_duration_sec=silence_min_duration_sec,
+            threshold=silence_threshold)
     else:
         trimmed_file = transcoded_file
 
@@ -138,7 +138,7 @@ if __name__ == "__main__":
         # supress tensorflow warnings
         os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
-    normalized_file, normalized_dir = normalize(args.input)
+    normalized_file, normalized_dir = normalize(args.input, args.silence_min_duration_sec, args.silence_threshold, args.keep_silence)
     samples, samples_dir = load_samples(normalized_file)
 
     if not args.keep_temp_files:
