@@ -1,13 +1,12 @@
-import os
 import glob
+import os
 import shutil
 import tempfile
-
-import numpy as np
 
 import common
 import features
 import folds
+import numpy as np
 from audio_toolbox import ffmpeg, sox
 from constants import *
 
@@ -59,10 +58,9 @@ def load_samples(normalized_file):
 
     return samples, temp_dir
 
-
 def predict(model_file, samples):
     import keras.models
-
+    keras.backend.clear_session()
     _, languages = common.build_label_binarizer()
 
     model = keras.models.load_model(model_file)
@@ -130,15 +128,16 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if not args.verbose:
-
         # supress all warnings
         import warnings
+
         warnings.filterwarnings("ignore")
 
         # supress tensorflow warnings
         os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
-    normalized_file, normalized_dir = normalize(args.input, args.silence_min_duration_sec, args.silence_threshold, args.keep_silence)
+    normalized_file, normalized_dir = normalize(args.input, args.silence_min_duration_sec, args.silence_threshold,
+                                                args.keep_silence)
     samples, samples_dir = load_samples(normalized_file)
 
     if not args.keep_temp_files:

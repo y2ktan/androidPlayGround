@@ -26,7 +26,7 @@ def upload_file():
         audio_range = get_mpeg_audio_length(mp3_fname)
         if audio_range < 10:
             concat_mp3 =  "{}.mp3".format(mp3_fname)
-            concat_mpeg_audio(mp3_fname,concat_mp3, math.ceil(10.0 / audio_range) * 2)
+            concat_mpeg_audio2(mp3_fname,concat_mp3, math.ceil(10.0 / audio_range) * 2)
             os.remove(mp3_fname)
             mp3_fname = concat_mp3
         # process cli file
@@ -39,10 +39,10 @@ def upload_file():
 
 
 def analyze_audio_type(fname, model=os.path.join("language_detection", "model.h5"), keep_temp_files=False):
-    normalized_file, normalized_dir = cli.normalize(fname, 0.1, 0.5, False)
+    normalized_file, normalized_dir = cli.normalize(fname, 0.1, 0.5)
     samples, samples_dir = cli.load_samples(normalized_file)
 
-    if keep_temp_files:
+    if not keep_temp_files:
         cli.clean((normalized_dir, samples_dir))
 
     scores, languages = cli.predict(model, samples)
@@ -51,11 +51,12 @@ def analyze_audio_type(fname, model=os.path.join("language_detection", "model.h5
     language_score = {}
     for language_idx, language in enumerate(languages):
         score = scores[language_idx]
-        language_score[language] = score
+        language_score[language] = (score / total) * 100
         print("{language}: {percent:.2f}% ({amount:.0f})".format(
             language=language,
             percent=(score / total) * 100,
             amount=score))
+
     return language_score
 
 
