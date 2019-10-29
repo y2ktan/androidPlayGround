@@ -60,7 +60,7 @@ def load_samples(normalized_file):
     return samples, temp_dir
 
 
-def predict(model_file):
+def predict(model_file, samples):
     import keras.models
 
     _, languages = common.build_label_binarizer()
@@ -144,7 +144,7 @@ if __name__ == "__main__":
     if not args.keep_temp_files:
         clean((normalized_dir, samples_dir))
 
-    scores, languages = predict(args.model)
+    scores, languages = predict(args.model, samples)
 
     total = np.sum(scores)
     for language_idx, language in enumerate(languages):
