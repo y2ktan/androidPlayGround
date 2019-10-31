@@ -6,7 +6,10 @@ import wave
 
 import numpy as np
 import scipy.io.wavfile
+<<<<<<< HEAD
+=======
 from mutagen.mp3 import MP3
+>>>>>>> dadb38cf6d80e05157a4e018a1d9ca5f7a6a6a26
 from scipy import interpolate
 
 
@@ -17,6 +20,8 @@ def concat_mpeg_audio(origin, concat_output, dup_count=1):
     destination.close()
 
 
+<<<<<<< HEAD
+=======
 def concat_mpeg_audio2(origin, concat_output, dup_count=1):
     file_list = []
     for count in range(dup_count):
@@ -30,6 +35,7 @@ def concat_mpeg_audio2(origin, concat_output, dup_count=1):
     # destination.close()
 
 
+>>>>>>> dadb38cf6d80e05157a4e018a1d9ca5f7a6a6a26
 # import audiolab, scipy
 # a, fs, enc = audiolab.wavread('file1.wav')
 # b, fs, enc = audiolab.wavread('file2.wav')
@@ -43,7 +49,11 @@ def concat_wav_audio(origin, concat_output, dup_count=1):
     f.close()
     # print("ffmpeg {} -filter_complex '[0:0][1:0][2:0][3:0]concat=n={}:v=0:a=1[out]' -map '[out]' {}".format(input_file_cmd, dup_count,concat_output))
     print("ffmpeg -y -f concat -safe 0 -i {} -c copy {}".format("mylist.txt", concat_output))
+<<<<<<< HEAD
+    os.system("ffmpeg -y -f concat -safe 0 -i {} -c copy {}".format("mylist.txt", concat_output))
+=======
     return os.system("ffmpeg -y -f concat -safe 0 -i {} -c copy {}".format("mylist.txt", concat_output))
+>>>>>>> dadb38cf6d80e05157a4e018a1d9ca5f7a6a6a26
     # os.remove("mylist.txt")
 
 
@@ -65,8 +75,8 @@ def resample_audio(fname, output, target_sample_rate=22050):
 
 
 def convert_to_mp3(fname, output):
-    return subprocess.call(["ffmpeg", "-y", "-i", fname, "-codec:a", "libmp3lame", "-qscale:a", "2", output])
-
+   return subprocess.call(
+        ["ffmpeg", "-y", "-i", fname, "-codec:a", "libmp3lame", "-qscale:a", "2", "-ar", "44100", "-ac", "2", output])
 
 def get_mpeg_audio_length(fname):
     audio = MP3(fname)
