@@ -31,3 +31,4 @@ tensorflow==1.8.0
 termcolor==1.1.0
 flask
 werkzeug
+mutagen

@@ -1,30 +1,29 @@
-import os
 import glob
+import os
 import shutil
 import tempfile
-
-import numpy as np
 
 import common
 import features
 import folds
+import numpy as np
 from audio_toolbox import ffmpeg, sox
 from constants import *
 
 
-def normalize(input_file):
+def normalize(input_file, silence_min_duration_sec, silence_threshold, keep_silence=True):
     temp_dir = tempfile.mkdtemp()
 
     transcoded_file = os.path.join(temp_dir, 'transcoded.flac')
     ffmpeg.transcode(input_file, transcoded_file)
 
-    if not args.keep_silence:
+    if not keep_silence:
         trimmed_file = os.path.join(temp_dir, 'trimmed.flac')
         sox.remove_silence(
             transcoded_file,
             trimmed_file,
-            min_duration_sec=args.silence_min_duration_sec,
-            threshold=args.silence_threshold)
+            min_duration_sec=silence_min_duration_sec,
+            threshold=silence_threshold)
     else:
         trimmed_file = transcoded_file
 
@@ -59,10 +58,9 @@ def load_samples(normalized_file):
 
     return samples, temp_dir
 
-
-def predict(model_file):
+def predict(model_file, samples):
     import keras.models
-
+    keras.backend.clear_session()
     _, languages = common.build_label_binarizer()
 
     model = keras.models.load_model(model_file)
@@ -130,21 +128,22 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if not args.verbose:
-
         # supress all warnings
         import warnings
+
         warnings.filterwarnings("ignore")
 
         # supress tensorflow warnings
         os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
-    normalized_file, normalized_dir = normalize(args.input)
+    normalized_file, normalized_dir = normalize(args.input, args.silence_min_duration_sec, args.silence_threshold,
+                                                args.keep_silence)
     samples, samples_dir = load_samples(normalized_file)
 
     if not args.keep_temp_files:
         clean((normalized_dir, samples_dir))
 
-    scores, languages = predict(args.model)
+    scores, languages = predict(args.model, samples)
 
     total = np.sum(scores)
     for language_idx, language in enumerate(languages):
