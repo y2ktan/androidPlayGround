@@ -31,7 +31,7 @@ def upload_file():
             mp3_fname = concat_mp3
         # process cli file
         language_score = analyze_audio_type(mp3_fname)
-        os.remove(uploaded_audio)
+        #os.remove(uploaded_audio)
         language = max(language_score.items(), key=operator.itemgetter(1))[0]
         print(language)
         return language
@@ -61,4 +61,4 @@ def analyze_audio_type(fname, model=os.path.join("language_detection", "model.h5
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0', port=5878)
