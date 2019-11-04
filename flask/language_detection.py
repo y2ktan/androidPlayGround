@@ -21,8 +21,8 @@ def upload_file():
         if not os.path.exists(FILE_DIR):
             os.makedirs(FILE_DIR)
         f.save(uploaded_audio)
-        mp3_fname = "{}.mp3".format(uploaded_audio)
-        convert_to_mp3(uploaded_audio, mp3_fname)
+        mp3_fname =  uploaded_audio
+        #convert_to_mp3(uploaded_audio, mp3_fname)
         audio_range = get_mpeg_audio_length(mp3_fname)
         if audio_range < 10:
             concat_mp3 =  "{}.mp3".format(mp3_fname)
