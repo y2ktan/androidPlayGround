@@ -29,6 +29,6 @@ speechpy==2.2
 tensorboard==1.8.0
 tensorflow==1.8.0
 termcolor==1.1.0
-flask
-werkzeug
-mutagen
+flask==1.1.1
+werkzeug==0.16.0
+mutagen==1.42.0
