@@ -15,7 +15,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 import java.security.Permission
 import java.util.ArrayList
-import java.util.jar.Manifest
 
 
 class GenericFileProvider : FileProvider()
@@ -45,20 +44,10 @@ class MainActivity : AppCompatActivity() {
             i.action = Intent.ACTION_VIEW
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-
-//            openFileOutput("FireApp-debug_update.apk", MODE_PRIVATE).use {
-//                val f = File(path)
-//                val data = f.readBytes()
-//                it.write(data)
-//            }
-
-            //This is to read internal storage
             val apkFileUri = FileProvider.getUriForFile(applicationContext,
                 "$packageName.provider", File(path))
             i.setDataAndType(apkFileUri, "application/vnd.android.package-archive")
-            //This is to read external storage
             Log.d(TAG, "packageName: $packageName")
-//            i.setDataAndType(Uri.fromFile(File(path)), "application/vnd.android.package-archive")
             Log.d(TAG, "About to install new .apk")
             startActivity(i)
         }
@@ -70,16 +59,6 @@ class MainActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when(requestCode){
-            REQUEST_PERMISSION -> {
-//                for(result in grantResults) {
-//                    if (result != PackageManager.PERMISSION_GRANTED) {
-//                        finish()
-//                    }
-//                }
-            }
-
-        }
     }
 
     private fun requestExternalStoragePermission(activity: Activity, permissions:ArrayList<String>){
