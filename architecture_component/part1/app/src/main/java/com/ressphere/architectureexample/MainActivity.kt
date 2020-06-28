@@ -8,6 +8,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -27,8 +29,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val noteViewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
+
+        val noteAdapter = NoteAdapter()
+        recycler_view.layoutManager = LinearLayoutManager(this)
+        recycler_view.setHasFixedSize(true)
+        recycler_view.adapter = noteAdapter
         noteViewModel.allNotes?.observe(this, Observer {
-            Toast.makeText(applicationContext, "all notes is found", Toast.LENGTH_LONG).show()
+            noteAdapter.setNotes(it)
         })
     }
 }
