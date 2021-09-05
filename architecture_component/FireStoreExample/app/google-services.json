@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "385928854704",
+    "project_id": "firestoreexample-fc466",
+    "storage_bucket": "firestoreexample-fc466.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:385928854704:android:f56e3627d2c883d8d6cf75",
+        "android_client_info": {
+          "package_name": "com.ressphere.firestoreexample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "385928854704-uj2phuhmem8is609k13kltqmum40o0d3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAucNmRH7AN2S5iPZwxnvMuZ3ydVu_XjbY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "385928854704-uj2phuhmem8is609k13kltqmum40o0d3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
