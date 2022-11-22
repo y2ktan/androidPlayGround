@@ -13,7 +13,7 @@ Keras==2.1.6
 Markdown==2.6.11
 numpy==1.14.3
 pandas==0.22.0
-Pillow==5.1.0
+Pillow==9.3.0
 protobuf==3.5.2.post1
 pycodestyle==2.4.0
 pycparser==2.18
